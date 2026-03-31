@@ -1,11 +1,488 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-  <meta charset="utf-8">
-  <title>kokoi</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Devofworld</title>
+  <style>
+    :root {
+      --bg: #0f1115;
+      --panel: rgba(255,255,255,0.06);
+      --panel-strong: rgba(255,255,255,0.1);
+      --text: #f5f7fb;
+      --muted: rgba(245,247,251,0.72);
+      --line: rgba(255,255,255,0.12);
+      --accent: #9cc3ff;
+      --accent-2: #b8ffd7;
+      --shadow: 0 20px 60px rgba(0,0,0,0.35);
+      --radius: 22px;
+      --max: 1120px;
+    }
+
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      background:
+        radial-gradient(circle at top left, rgba(156,195,255,0.16), transparent 34%),
+        radial-gradient(circle at top right, rgba(184,255,215,0.12), transparent 28%),
+        linear-gradient(180deg, #101319 0%, #0d1014 100%);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", "Helvetica Neue", sans-serif;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .wrap {
+      width: min(var(--max), calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 0;
+    }
+
+    .brand {
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      font-size: 18px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 18px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .hero {
+      padding: 56px 0 28px;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .hero-main,
+    .hero-side,
+    .card,
+    .footer-box {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+    }
+
+    .hero-main {
+      padding: 34px;
+      min-height: 360px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .hero-kicker {
+      display: inline-flex;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--muted);
+      font-size: 13px;
+      width: fit-content;
+    }
+
+    h1 {
+      font-size: clamp(38px, 6vw, 72px);
+      line-height: 0.98;
+      letter-spacing: -0.04em;
+      margin: 18px 0 16px;
+      max-width: 9ch;
+    }
+
+    .hero-desc {
+      font-size: 17px;
+      line-height: 1.7;
+      color: var(--muted);
+      max-width: 52ch;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 28px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 13px 18px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 600;
+      border: 1px solid var(--line);
+      transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+    }
+
+    .btn:hover { transform: translateY(-1px); }
+
+    .btn-primary {
+      background: linear-gradient(135deg, rgba(156,195,255,0.26), rgba(184,255,215,0.2));
+      border-color: rgba(255,255,255,0.16);
+    }
+
+    .btn-secondary {
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+    }
+
+    .hero-side {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 360px;
+    }
+
+    .mini-label {
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .stat {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 18px;
+      padding: 16px;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 28px;
+      letter-spacing: -0.03em;
+      margin-top: 8px;
+    }
+
+    .section {
+      padding: 18px 0 8px;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-size: 28px;
+      letter-spacing: -0.03em;
+      margin: 0;
+    }
+
+    .section-sub {
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.7;
+      max-width: 54ch;
+    }
+
+    .apps {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+
+    .card {
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .app-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .app-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      background: linear-gradient(145deg, rgba(156,195,255,0.34), rgba(255,255,255,0.08));
+      border: 1px solid rgba(255,255,255,0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 16px;
+    }
+
+    .app-name {
+      font-size: 24px;
+      letter-spacing: -0.03em;
+      margin: 0;
+    }
+
+    .badge {
+      padding: 7px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      color: var(--muted);
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      white-space: nowrap;
+    }
+
+    .app-text {
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.75;
+    }
+
+    .tags {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .tag {
+      padding: 8px 11px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .links {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: auto;
+    }
+
+    .text-link {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      opacity: 0.92;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .footer {
+      padding: 18px 0 40px;
+    }
+
+    .footer-box {
+      padding: 22px;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 18px;
+    }
+
+    .muted { color: var(--muted); }
+
+    .small { font-size: 14px; line-height: 1.7; }
+
+    @media (max-width: 900px) {
+      .hero,
+      .apps,
+      .grid-2,
+      .footer-box {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-main,
+      .hero-side {
+        min-height: auto;
+      }
+
+      .nav {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+    }
+  </style>
 </head>
 <body>
-  <h1>kokoi</h1>
-  <p>A simple and powerful stock average cost calculator.</p>
+  <div class="wrap">
+    <nav class="nav">
+      <div class="brand">Devofworld</div>
+      <div class="nav-links">
+        <a href="#apps">Apps</a>
+        <a href="#support">Support</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </nav>
+
+    <section class="hero">
+      <div class="hero-main">
+        <div>
+          <div class="hero-kicker">Independent app studio</div>
+          <h1>Simple tools, thoughtfully built.</h1>
+          <div class="hero-desc">
+            Devofworld creates focused apps with clear purpose: practical tools, calm interfaces, and features designed to solve real everyday problems without excess.
+          </div>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#apps">Explore Apps</a>
+            <a class="btn btn-secondary" href="mailto:support@devofworld.com">Contact Support</a>
+          </div>
+        </div>
+      </div>
+
+      <aside class="hero-side">
+        <div>
+          <div class="mini-label">Studio focus</div>
+          <div class="stat-grid">
+            <div class="stat">
+              <div class="muted small">Design style</div>
+              <strong>Clean</strong>
+            </div>
+            <div class="stat">
+              <div class="muted small">Product goal</div>
+              <strong>Useful</strong>
+            </div>
+            <div class="stat">
+              <div class="muted small">Build principle</div>
+              <strong>Simple</strong>
+            </div>
+            <div class="stat">
+              <div class="muted small">User feeling</div>
+              <strong>Clear</strong>
+            </div>
+          </div>
+        </div>
+        <div class="small muted">
+          This page serves as the official developer website for current and future Devofworld apps, including support information, app overview, and required policy links.
+        </div>
+      </aside>
+    </section>
+
+    <section class="section" id="apps">
+      <div class="section-head">
+        <div>
+          <h2 class="section-title">Apps</h2>
+          <div class="section-sub">A growing collection of lightweight tools built for clarity, utility, and daily use.</div>
+        </div>
+      </div>
+
+      <div class="apps">
+        <article class="card">
+          <div class="app-top">
+            <div style="display:flex; gap:14px; align-items:flex-start;">
+              <div class="app-icon">KO</div>
+              <div>
+                <h3 class="app-name">kokoi</h3>
+                <div class="muted small">Stock average cost calculator</div>
+              </div>
+            </div>
+            <div class="badge">Available</div>
+          </div>
+          <div class="app-text">
+            A simple and powerful stock average cost calculator. Track positions, simulate buy strategies, compare fee structures, and make clearer investment decisions.
+          </div>
+          <div class="tags">
+            <span class="tag">Average cost</span>
+            <span class="tag">Fee simulation</span>
+            <span class="tag">Position planning</span>
+          </div>
+          <div class="links">
+            <a class="text-link" href="#">App Store</a>
+            <a class="text-link" href="#support">Support</a>
+            <a class="text-link" href="#">Privacy Policy</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="app-top">
+            <div style="display:flex; gap:14px; align-items:flex-start;">
+              <div class="app-icon">PM</div>
+              <div>
+                <h3 class="app-name">petMEMO</h3>
+                <div class="muted small">Pet care reminders and records</div>
+              </div>
+            </div>
+            <div class="badge">Available</div>
+          </div>
+          <div class="app-text">
+            A calm, lightweight pet care app for reminders, records, and daily pet management. Designed for busy owners who want clarity without clutter.
+          </div>
+          <div class="tags">
+            <span class="tag">Pet records</span>
+            <span class="tag">Reminders</span>
+            <span class="tag">Daily care</span>
+          </div>
+          <div class="links">
+            <a class="text-link" href="#">App Store</a>
+            <a class="text-link" href="#support">Support</a>
+            <a class="text-link" href="#">Privacy Policy</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section grid-2" id="support">
+      <div class="card">
+        <h2 class="section-title" style="font-size:24px; margin:0;">Support</h2>
+        <div class="app-text">
+          For product questions, bug reports, feature suggestions, or App Store support inquiries, please contact the developer through email.
+        </div>
+        <div class="links">
+          <a class="text-link" href="mailto:support@devofworld.com">support@devofworld.com</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2 class="section-title" style="font-size:24px; margin:0;">Policies</h2>
+        <div class="app-text">
+          Each app should have its own privacy policy page and, when needed, additional support or subscription information.
+        </div>
+        <div class="links">
+          <a class="text-link" href="#">kokoi Privacy Policy</a>
+          <a class="text-link" href="#">petMEMO Privacy Policy</a>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer" id="contact">
+      <div class="footer-box">
+        <div>
+          <div class="brand" style="margin-bottom:10px;">Devofworld</div>
+          <div class="muted small">
+            Official developer website for Devofworld apps. Built for App Store listing, user support, and product information.
+          </div>
+        </div>
+        <div>
+          <div class="mini-label">Contact</div>
+          <div class="small"><a href="mailto:support@devofworld.com">support@devofworld.com</a></div>
+        </div>
+      </div>
+    </footer>
+  </div>
 </body>
 </html>
+
