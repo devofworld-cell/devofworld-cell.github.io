@@ -7,109 +7,155 @@
   <style>
     body {
       margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
-      background: #0f1115;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+      background: #0c0d10;
       color: #fff;
     }
 
-    .container {
-      max-width: 900px;
+    .wrap {
+      max-width: 1100px;
       margin: 0 auto;
-      padding: 40px 20px;
+      padding: 60px 24px;
     }
 
     h1 {
-      font-size: 40px;
-      margin-bottom: 10px;
-    }
-
-    p {
-      color: rgba(255,255,255,0.7);
-      line-height: 1.6;
-    }
-
-    .apps {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-      margin-top: 40px;
-    }
-
-    .card {
-      background: rgba(255,255,255,0.05);
-      border-radius: 20px;
-      padding: 20px;
-    }
-
-    .app-header {
-      display: flex;
-      align-items: center;
-      gap: 12px;
+      font-size: 64px;
+      letter-spacing: -0.04em;
       margin-bottom: 12px;
     }
 
-    .app-icon {
-      width: 50px;
-      height: 50px;
-      border-radius: 14px;
-      overflow: hidden;
+    .hero-sub {
+      color: rgba(255,255,255,0.5);
+      max-width: 520px;
+      line-height: 1.8;
+      font-size: 16px;
     }
 
-    .app-icon img {
+    .apps {
+      margin-top: 80px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+    }
+
+    .card {
+      position: relative;
+      padding: 28px;
+      border-radius: 28px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+      border: 1px solid rgba(255,255,255,0.08);
+      backdrop-filter: blur(20px);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    }
+
+    .top {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    }
+
+    .icon img {
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
 
+    .name {
+      font-size: 24px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+
+    .sub {
+      font-size: 14px;
+      color: rgba(255,255,255,0.5);
+    }
+
+    .text {
+      margin-top: 18px;
+      line-height: 1.8;
+      color: rgba(255,255,255,0.7);
+      font-size: 15px;
+    }
+
     .links {
-      margin-top: 12px;
+      margin-top: 20px;
       display: flex;
-      gap: 12px;
+      gap: 18px;
       flex-wrap: wrap;
     }
 
     a {
-      color: #9cc3ff;
-      text-decoration: none;
       font-size: 14px;
+      color: rgba(255,255,255,0.85);
+      text-decoration: none;
+      position: relative;
+    }
+
+    a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -2px;
+      width: 0;
+      height: 1px;
+      background: rgba(255,255,255,0.6);
+      transition: width 0.2s ease;
+    }
+
+    a:hover::after {
+      width: 100%;
     }
 
     footer {
-      margin-top: 60px;
-      color: rgba(255,255,255,0.5);
+      margin-top: 100px;
+      color: rgba(255,255,255,0.4);
       font-size: 14px;
     }
 
-    @media (max-width: 700px) {
-      .apps {
-        grid-template-columns: 1fr;
-      }
+    @media (max-width: 800px) {
+      h1 { font-size: 44px; }
+      .apps { grid-template-columns: 1fr; gap: 24px; }
     }
   </style>
 </head>
 <body>
-  <div class="container">
+  <div class="wrap">
 
     <h1>Devofworld</h1>
-    <p>Simple tools. Better decisions.</p>
+    <div class="hero-sub">
+      A collection of quietly powerful tools. Designed with clarity, restraint, and intention.
+    </div>
 
     <div class="apps">
 
-      <!-- kokoi -->
       <div class="card">
-        <div class="app-header">
-          <div class="app-icon">
+        <div class="top">
+          <div class="icon">
             <img src="kokoi-icon.png" alt="kokoi">
           </div>
           <div>
-            <strong>kokoi</strong><br>
-            <span style="color:rgba(255,255,255,0.6); font-size:14px;">Stock average cost calculator</span>
+            <div class="name">kokoi</div>
+            <div class="sub">Stock average cost calculator</div>
           </div>
         </div>
 
-        <p>
-          A simple and powerful stock average cost calculator. Track positions, simulate buy strategies, and optimize your investment decisions.
-        </p>
+        <div class="text">
+          A precise tool for managing positions and simulating strategies. Designed to reduce noise and help you think clearly about decisions.
+        </div>
 
         <div class="links">
           <a href="#">App Store</a>
@@ -118,21 +164,20 @@
         </div>
       </div>
 
-      <!-- petMEMO -->
       <div class="card">
-        <div class="app-header">
-          <div class="app-icon">
+        <div class="top">
+          <div class="icon">
             <img src="petmemo-icon.png" alt="petMEMO">
           </div>
           <div>
-            <strong>petMEMO</strong><br>
-            <span style="color:rgba(255,255,255,0.6); font-size:14px;">Pet care reminders</span>
+            <div class="name">petMEMO</div>
+            <div class="sub">Pet care reminders</div>
           </div>
         </div>
 
-        <p>
-          A lightweight pet care app for reminders, records, and daily management.
-        </p>
+        <div class="text">
+          A calm and minimal space to keep track of daily pet care. Built for quiet consistency and long-term use.
+        </div>
 
         <div class="links">
           <a href="#">App Store</a>
@@ -144,7 +189,7 @@
     </div>
 
     <footer>
-      contact: devofworld@gmail.com
+      devofworld@gmail.com
     </footer>
 
   </div>
